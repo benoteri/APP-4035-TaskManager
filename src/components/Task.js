@@ -1,13 +1,52 @@
 import "../styles/task.scss";
 import { useState } from "react";
-import Linx from "./LineProgress";
+import React from 'react';
+import { LeftCircleTwoTone, RightCircleTwoTone, EditTwoTone,
+ DeleteTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
+import { Button } from 'antd';
+
 export default function Task(props) {
   const { addTask, deleteTask, moveTask, task } = props;
 
   const [urgencyLevel, setUrgencyLevel] = useState(task.urgency);
   const [collapsed, setCollapsed] = useState(task.isCollapsed);
   const [formAction, setFormAction] = useState("");
-  const [progress, setProgress] = useState(task.progress);
+
+  const [data, setTask] = useState({});
+  const [ setSubmitted ] = useState(false);
+
+  const serverHost = 'http://localhost:3000';
+
+  async function addtask(task) {
+    const url = serverHost + '/task';
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(task)
+    }
+    const response = await fetch(url, options);
+        if (response.status === 200) {
+            setSubmitted(true);
+    }
+    
+  }
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    const currentInputFieldData = {
+        [name]: value
+    }
+
+    const updatedData = {
+        ...data,
+        ...currentInputFieldData
+    }
+    setTask(updatedData);
+  }
 
   function setUrgency(event) {
     setUrgencyLevel(event.target.attributes.urgency.value);
@@ -25,6 +64,7 @@ export default function Task(props) {
           id: task.id,
           title: event.target.elements.title.value,
           description: event.target.elements.description.value,
+          date: event.target.elements.date.value,
           urgency: urgencyLevel,
           status: task.status,
           isCollapsed: true,
@@ -32,6 +72,7 @@ export default function Task(props) {
 
         addTask(newTask);
         setCollapsed(true);
+        addTask(data);
       }
     }
 
@@ -45,13 +86,15 @@ export default function Task(props) {
 
     if (task.status === "In Progress") {
       newStatus = "Not Started";
-    } else if (task.status === "Done") {
+    } 
+    else if (task.status === "Done") {
       newStatus = "In Progress";
     }
 
     if (newStatus !== "") {
       moveTask(task.id, newStatus);
     }
+
   }
 
   function handleMoveRight() {
@@ -59,20 +102,21 @@ export default function Task(props) {
 
     if (task.status === "Not Started") {
       newStatus = "In Progress";
-    } else if (task.status === "In Progress") {
+    } 
+    else if (task.status === "In Progress") {
       newStatus = "Done";
     }
 
     if (newStatus !== "") {
       moveTask(task.id, newStatus);
     }
+
   }
 
   return (
     <div className={`task ${collapsed ? "collapsedTask" : ""}`}>
-      <button onClick={handleMoveLeft} className="button moveTask">
-        &#171;
-      </button>
+      <Button onClick={handleMoveLeft} className="button moveTask" icon={<LeftCircleTwoTone />}/>
+        
       <form onSubmit={handleSubmit} className={collapsed ? "collapsed" : ""}>
         <input
           type="text"
@@ -81,6 +125,7 @@ export default function Task(props) {
           placeholder="Task Name"
           disabled={collapsed}
           defaultValue={task.title}
+          onChange={handleChange}
         />
         <textarea
           rows="2"
@@ -88,7 +133,18 @@ export default function Task(props) {
           name="description"
           placeholder="Enter Description"
           defaultValue={task.description}
+          onChange={handleChange}
         />
+        <input
+          type="date"
+          className="description input"
+          name="date"
+          placeholder="End date"
+          disabled={collapsed}
+          defaultValue={task.date}
+          onChange={handleChange}
+        />
+        <br/>
         <div className="urgencyLabels">
           <label className={`low ${urgencyLevel === "low" ? "selected" : ""}`}>
             <input
@@ -97,7 +153,7 @@ export default function Task(props) {
               type="radio"
               name="urgency"
             />
-            low
+            Low
           </label>
           <label
             className={`medium ${urgencyLevel === "medium" ? "selected" : ""}`}
@@ -108,7 +164,7 @@ export default function Task(props) {
               type="radio"
               name="urgency"
             />
-            medium
+            Med
           </label>
           <label
             className={`high ${urgencyLevel === "high" ? "selected" : ""}`}
@@ -119,16 +175,16 @@ export default function Task(props) {
               type="radio"
               name="urgency"
             />
-            high
+            High
           </label>
         </div>
         <button
           onClick={() => {
             setFormAction("save");
           }}
-          className="button"
+          className="button delete"
         >
-          {collapsed ? "View" : "Save"}
+          {collapsed ? <EditTwoTone /> : <CheckCircleTwoTone />}
         </button>
         {collapsed && (
           <button
@@ -136,18 +192,17 @@ export default function Task(props) {
               setFormAction("delete");
             }}
             className="button delete"
+            
           >
-            X
+          {<DeleteTwoTone twoToneColor="#eb2f96"/>} 
           </button>
+          
         )}
       </form>
-      
-      <button onClick={handleMoveRight} className="button moveTask">
-        &#187;
-      </button>
-      
-     <br/>
+      <Button onClick={handleMoveRight} className="button moveTask" icon={<RightCircleTwoTone />}/>
+
       
     </div>
+
   );
 }

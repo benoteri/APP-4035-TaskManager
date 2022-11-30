@@ -7,7 +7,7 @@
   align-items: flex-end;
   border: 1px solid $blue;
   border-radius: 0.25rem;
-
+  
   &.collapsedTask {
     .moveTask {
       margin-bottom: 0.5rem;
@@ -170,6 +170,12 @@
 
         &.moveTask {
           background-color: red;
+          font-size: 1.5rem;
+          padding: 0.5rem 0.5rem;
+          margin-bottom: 0;
+          line-height: 1rem;
+          background-color: transparent;
+          border: none;
         }
       }
 
