@@ -5,7 +5,7 @@
   margin-bottom: 0.5rem;
   display: flex;
   align-items: flex-end;
-  border: 1px solid $white;
+  border: 1px solid $blue;
   border-radius: 0.25rem;
 
   &.collapsedTask {
@@ -27,7 +27,7 @@
       background-color: transparent;
       border: 1px solid transparent;
       border-radius: 0.25rem;
-      color: $white;
+      color: $blue;
       text-align: center;
       resize: none;
       display: flex;
@@ -40,12 +40,12 @@
 
       &:focus {
         outline: none;
-        border-color: $gold;
-        color: $gold;
+        border-color: $blue;
+        color: $blue;
       }
 
       &::placeholder {
-        color: $white;
+        color: rgb(114, 111, 111);
       }
     }
 
@@ -122,7 +122,7 @@
         }
 
         &.high {
-          background-color: $pink;
+          background-color: $red;
 
           &:hover {
             cursor: pointer;

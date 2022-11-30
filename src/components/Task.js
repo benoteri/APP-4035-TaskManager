@@ -1,12 +1,13 @@
 import "../styles/task.scss";
 import { useState } from "react";
-
+import Linx from "./LineProgress";
 export default function Task(props) {
   const { addTask, deleteTask, moveTask, task } = props;
 
   const [urgencyLevel, setUrgencyLevel] = useState(task.urgency);
   const [collapsed, setCollapsed] = useState(task.isCollapsed);
   const [formAction, setFormAction] = useState("");
+  const [progress, setProgress] = useState(task.progress);
 
   function setUrgency(event) {
     setUrgencyLevel(event.target.attributes.urgency.value);
@@ -140,9 +141,13 @@ export default function Task(props) {
           </button>
         )}
       </form>
+      
       <button onClick={handleMoveRight} className="button moveTask">
         &#187;
       </button>
+      
+     <br/>
+      
     </div>
   );
 }

@@ -1,9 +1,11 @@
 import "../styles/statusline.scss";
 import Task from './Task';
+import Linx from "./LineProgress";
+
 
 export default function StatusLine(props) {
   const { status, tasks, addTask, deleteTask, addEmptyTask, moveTask } = props;
-
+  
   let taskList, tasksForStatus;
 
   function handleAddEmpty() {
@@ -25,9 +27,14 @@ export default function StatusLine(props) {
           moveTask={(id, status) => moveTask(id, status)}
           key={task.id}
           task={task}
+
         />
+        
       );
+        
     });
+    
+    
   }
 
   return (
@@ -35,8 +42,10 @@ export default function StatusLine(props) {
       <h3>{status}</h3>
       {taskList}
       <button onClick={handleAddEmpty} className="button addTask">
-        +
+      +
       </button>
+      
     </div>
+    
   );
 }

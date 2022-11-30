@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import StatusLine from './components/StatusLine'
+import ProgressBar from "./components/progressBar";
 import './styles/app.scss';
-
-
+import Linx from "./components/LineProgress";
+import StatusLine2 from "./components/StatusLine2";
+import StatusLine3 from "./components/StatusLine3";
 function App() {
   const [tasks, setTasks] = useState([]);
 
@@ -87,7 +89,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Task Management</h1>
+      <h1 class="purples">Taskys</h1>
+      <br></br>
+      <h2> Welcome, Create and Manage your tasks now! </h2>
+      <br></br>
       <main>
         <section>
           <StatusLine
@@ -98,15 +103,18 @@ function App() {
             moveTask={moveTask}
             status="Not Started"
           />
-          <StatusLine
+          <StatusLine2
             tasks={tasks}
             addEmptyTask={addEmptyTask}
-            addTask={addTask}
+           addTask={addTask}
             deleteTask={deleteTask}
             moveTask={moveTask}
             status="In Progress"
-          />
-          <StatusLine
+            
+          >
+            
+          </StatusLine2>
+          <StatusLine3
             tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
@@ -114,9 +122,12 @@ function App() {
             moveTask={moveTask}
             status="Done"
           />
+
         </section>
+        
       </main>
       
+     
     </div>
   );
 }

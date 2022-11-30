@@ -3,6 +3,11 @@
 .statusLine {
   width: 100%;
   margin: 0 0.5rem;
+  flex-wrap: wrap;
+  border: double;
+  border-color: black;
+  border-radius: 2em;
+
 
   h3 {
     font-weight: 500;
